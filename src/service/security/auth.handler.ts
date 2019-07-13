@@ -3,9 +3,9 @@ import * as restify from 'restify'
 import * as jwt from 'jsonwebtoken'
 import { NotAuthorizedError } from 'restify-errors'
 
-import { environment } from '../../config/environment'
+import { User } from '../../db/mongodb/user.model'
 import { userBO } from '../../business/user.business'
-import { User } from '../../db/mongodb/user.model';
+import { environment } from '../../config/environment'
 
 /**
  * Realiza a autenticação do usuário, de acordo com o 'e-mail' e a 'senha' informados.
@@ -33,7 +33,7 @@ export const authenticate: restify.RequestHandler = async (req, resp, next) => {
  *
  * @param user
  */
-const getToken = (user: User) => {
+function getToken (user: User) {
   const accessToken = jwt.sign({
     sub: user.email as any,
     iss: 'checker-api'

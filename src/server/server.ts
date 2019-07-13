@@ -6,6 +6,7 @@ import * as corsMiddleware from 'restify-cors-middleware'
 import { Router } from '../router/router'
 import { handleError } from './error.handler'
 import { environment } from '../config/environment'
+import { tokenParser } from '../service/security/token.parser'
 
 /**
  * Classe do Servidor.
@@ -81,6 +82,7 @@ export class Server {
     this.application.use(cors.actual)
     this.application.use(restify.plugins.queryParser())
     this.application.use(restify.plugins.bodyParser())
+    this.application.use(tokenParser)
   }
 
   /**
