@@ -14,6 +14,13 @@ export interface Check extends mongoose.Document {
 }
 
 /**
+ * Adiciona novos métodos ao modelo "Check".
+ */
+export interface CheckModel extends mongoose.Model<Check> {
+  findChecksByUser(id: mongoose.Types.ObjectId): Promise<Check[]>
+}
+
+/**
  * Schema: Define as propriedades (metadados) dos documentos.
  */
 const checkSchema = new mongoose.Schema({
@@ -37,9 +44,13 @@ const checkSchema = new mongoose.Schema({
   }
 })
 
+checkSchema.statics.findChecksByUser = function (id: mongoose.Types.ObjectId) {
+  return this.find({ user: id })
+}
+
 /**
  * Exporta o Model "Check", que faz uso do Schema "checkSchema".
  * O Model serve para manipular os Documentos da Collection.
  * O Mongoose utilizará o nome do Model para definir o nome (no plural) da Collection.
  */
-export const Check = mongoose.model<Check>('Check', checkSchema)
+export const Check = mongoose.model<Check, CheckModel>('Check', checkSchema)

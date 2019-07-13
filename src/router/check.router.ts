@@ -26,8 +26,20 @@ class CheckRouter extends ModelRouter<Check> {
    * @param application
    */
   public applyRoutes(application: restify.Server) {
-    application.get(`${this.basePath}`, [authorize(), this.findAll])
+    application.get(`${this.basePath}`, [authorize(), this.findChecksByUser])
     application.post(`${this.basePath}`, [authorize(), this.save])
+  }
+
+  /**
+   * Retorna as validações de e-mail conforme o "usuário" informado.
+   */
+  private findChecksByUser: restify.RequestHandler = async (req, resp, next) => {
+    try {
+      const checks = await checkBO.findChecksByUser(req.authenticated);
+      this.renderAll(checks, resp, next)
+    } catch (error) {
+      next(error)
+    }
   }
 
 }
