@@ -46,7 +46,6 @@ export abstract class AbstractBO<D extends mongoose.Document> {
       const document = new this.model(data)
       return await document.save()
     } catch (error) {
-      console.log(error);
       throw new NotFoundError('Falha ao inserir o documento.')
     }
   }

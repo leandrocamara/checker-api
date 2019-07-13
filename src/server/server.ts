@@ -5,9 +5,7 @@ import * as corsMiddleware from 'restify-cors-middleware'
 
 import { Router } from '../router/router'
 import { handleError } from './error.handler'
-import { userBO } from '../business/user.business'
 import { environment } from '../config/environment'
-import { User } from '../db/mongodb/user.model';
 
 /**
  * Classe do Servidor.
@@ -46,7 +44,6 @@ export class Server {
   private initRoutes(routers: Router[]): Promise<any>{
     return new Promise((resolve, reject) => {
       try {
-
         this.createServer()
         this.applyMiddlewares()
         this.applyRoutersInServer(routers)
@@ -57,9 +54,6 @@ export class Server {
         })
 
         this.application.on('restifyError', handleError)
-
-        this.createUserMock()
-
       } catch (error) {
         reject(error)
       }
@@ -80,7 +74,6 @@ export class Server {
    * Instala plugins que serão utilizada por todas as rotas.
    */
   private applyMiddlewares(): void {
-
     const cors: corsMiddleware.CorsMiddleware = this.getCors()
 
     this.application.pre(cors.preflight)
@@ -94,13 +87,11 @@ export class Server {
    * Retorna a configuração do CORS.
    */
   private getCors(): corsMiddleware.CorsMiddleware {
-
     const corsOptions: corsMiddleware.Options = {
       origins: ['*'],
       allowHeaders: [],
       exposeHeaders: [],
     }
-
     return corsMiddleware(corsOptions)
   }
 
@@ -112,21 +103,6 @@ export class Server {
   private applyRoutersInServer(routers: Router[]): void {
     for (let router of routers) {
       router.applyRoutes(this.application)
-    }
-  }
-
-  /**
-   * @todo Método utilizado apenas para criar um usuário, futuramente vinculado às faturas.
-   */
-  private async createUserMock() {
-    let user = await userBO.findById('5b985e52485ecb083c4fc922')
-
-    if (!user) {
-      const user = new User({
-        _id: mongoose.Types.ObjectId.createFromHexString('5b985e52485ecb083c4fc922'),
-        name: 'Leandro Câmara'
-      })
-      await userBO.save(user)
     }
   }
 

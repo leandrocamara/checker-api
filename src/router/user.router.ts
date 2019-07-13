@@ -4,6 +4,7 @@ import * as restify from 'restify'
 import { ModelRouter } from './model.router'
 import { User } from '../db/mongodb/user.model'
 import { userBO } from '../business/user.business'
+import { authenticate } from '../service/security/auth.handler'
 
 /**
  * Rotas do recurso "User".
@@ -30,6 +31,9 @@ class UserRouter extends ModelRouter<User> {
   public applyRoutes(application: restify.Server) {
     application.get(`${this.basePath}/:id`, [this.validateId, this.findById])
     application.post(`${this.basePath}`, this.save)
+
+    // Auth
+    application.post(`${this.basePath}/auth`, authenticate)
   }
 
 }
