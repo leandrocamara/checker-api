@@ -18,8 +18,8 @@
     # Inicializar o "MongoDB Database Server"
     # Obs.: É possível iniciar o servidor por meio do "MongoDB Compass"
 
-    # Executa as tarefas do Gulp (Typescript Transpiler)
-    > npm run gulp
+    # Executa o Transpiler (Typescript)
+    > npm run build
 
     # Inicia o Servidor (API)
     > npm run dev

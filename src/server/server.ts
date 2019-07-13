@@ -1,4 +1,5 @@
 
+// import * as fs from 'fs'
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
 import * as corsMiddleware from 'restify-cors-middleware'
@@ -66,8 +67,10 @@ export class Server {
    */
   private createServer(): void {
     this.application = restify.createServer({
-      name: 'tilix-api',
-      version: '1.0.0'
+      name: 'checker-api',
+      version: '1.0.0',
+      // certificate: fs.readFileSync('../service/security/keys/cert.pem'),
+      // key: fs.readFileSync('../service/security/keys/key.pem')
     })
   }
 

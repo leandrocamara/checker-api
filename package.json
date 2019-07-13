@@ -4,9 +4,8 @@
   "description": "API para atender ao teste solicitado pela TheChecker.",
   "main": "index.js",
   "scripts": {
-    "dev": "node_modules/.bin/nodemon --delay 3 dist/main",
-    "gulp": "node_modules/.bin/gulp",
-    "test": "node_modules/.bin/nodemon --inspect-brk --delay 3 dist/main"
+    "build": "node_modules/.bin/tsc -w",
+    "dev": "node_modules/.bin/nodemon dist/main.js"
   },
   "repository": {
     "type": "git",

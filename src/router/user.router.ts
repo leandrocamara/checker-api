@@ -29,10 +29,7 @@ class UserRouter extends ModelRouter<User> {
    * @param application
    */
   public applyRoutes(application: restify.Server) {
-    application.get(`${this.basePath}/:id`, [this.validateId, this.findById])
     application.post(`${this.basePath}`, this.save)
-
-    // Auth
     application.post(`${this.basePath}/auth`, authenticate)
   }
 

@@ -4,6 +4,7 @@ import * as restify from 'restify'
 import { ModelRouter } from './model.router'
 import { Check } from '../db/mongodb/check.model'
 import { checkBO } from '../business/check.business'
+import { authorize } from '../service/security/authz.handler'
 
 /**
  * Rotas do recurso "Check".
@@ -25,8 +26,8 @@ class CheckRouter extends ModelRouter<Check> {
    * @param application
    */
   public applyRoutes(application: restify.Server) {
-    application.get(`${this.basePath}`, this.findAll)
-    application.post(`${this.basePath}`, this.save)
+    application.get(`${this.basePath}`, [authorize(), this.findAll])
+    application.post(`${this.basePath}`, [authorize(), this.save])
   }
 
 }

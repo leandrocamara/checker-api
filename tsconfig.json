@@ -1,16 +1,11 @@
 {
   "compilerOptions": {
-    "lib": [
-      "esnext"
-    ],
+    "outDir": "dist",
+    "target": "es6", // es2015
     "module": "commonjs",
-    "target": "es6"
+    "sourceMap": true
   },
-  "compileOnSave": false,
   "include": [
-    "src/**/*.ts"
+    "src/**/*"
   ],
-  "exclude": [
-    "node_modules"
-  ]
 }
