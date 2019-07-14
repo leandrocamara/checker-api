@@ -26,8 +26,10 @@ class CheckRouter extends ModelRouter<Check> {
    * @param application
    */
   public applyRoutes(application: restify.Server) {
-    application.get(`${this.basePath}`, [authorize(), this.findChecksByUser])
     application.post(`${this.basePath}`, [authorize(), this.checkEmail])
+    application.get(`${this.basePath}`, [authorize(), this.findChecksByUser])
+    application.get(`${this.basePath}/total`, [authorize(), this.getTotalChecks])
+    application.get(`${this.basePath}/progress`, [authorize(), this.getPercentValidsEmails])
   }
 
   /**
@@ -36,7 +38,7 @@ class CheckRouter extends ModelRouter<Check> {
   private findChecksByUser: restify.RequestHandler = async (req, resp, next) => {
     try {
       const user = req.authenticated
-      const checks = await checkBO.findChecksByUser(user);
+      const checks = await checkBO.findChecksByUser(user)
       this.renderAll(checks, resp, next)
     } catch (error) {
       next(error)
@@ -54,6 +56,34 @@ class CheckRouter extends ModelRouter<Check> {
 
       const message = check.valid ? 'E-mail válido!' : 'E-mail inválido!'
       this.render({ check, message }, resp, next)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Retorna a quantidade total de e-mails validados.
+   */
+  private getTotalChecks: restify.RequestHandler = async (req, resp, next) => {
+    try {
+      const user = req.authenticated
+      const total = await checkBO.getTotalChecks(user)
+      resp.json({ total })
+      return next()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Retorna a quantidade de e-mails válidos, em porcetagem (%).
+   */
+  private getPercentValidsEmails: restify.RequestHandler = async (req, resp, next) => {
+    try {
+      const user = req.authenticated
+      const percent = await checkBO.getPercentValidsEmails(user)
+      resp.json({ percentValidsEmails: percent })
+      return next()
     } catch (error) {
       next(error)
     }

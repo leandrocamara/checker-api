@@ -94,7 +94,7 @@ export class Server {
   private getCors(): corsMiddleware.CorsMiddleware {
     const corsOptions: corsMiddleware.Options = {
       origins: ['*'],
-      allowHeaders: [],
+      allowHeaders: ['Authorization'],
       exposeHeaders: [],
     }
     return corsMiddleware(corsOptions)

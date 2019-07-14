@@ -51,6 +51,42 @@ class CheckBO extends AbstractBO<Check> {
     }
   }
 
+  /**
+   * Retorna a quantidade de e-mails válidos, em porcetagem (%).
+   *
+   * @param user
+   */
+  public async getPercentValidsEmails(user: User): Promise<number> {
+    try {
+      const checks = await this.findChecksByUser(user)
+      const checksValid = checks.filter(check => {
+        return check.valid
+      })
+      return (checksValid.length * 100) / checks.length
+    } catch (error) {
+      throw new NotFoundError('Falha ao buscar o progresso das validações de e-mails.')
+    }
+  }
+
+  /**
+   * Retorna a quantidade total de e-mails validados.
+   *
+   * @param user
+   */
+  public async getTotalChecks(user: User): Promise<number> {
+    try {
+      const checks = await this.findChecksByUser(user)
+      return checks.length
+    } catch (error) {
+      throw new NotFoundError('Falha ao buscar a quantidade de e-mails validados.')
+    }
+  }
+
+  /**
+   * Verifica se o formato do e-mail é válido.
+   *
+   * @param email
+   */
   private verifyFormatEmail(email: string): boolean {
     const regex: RegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gm
     return regex.test(email)
