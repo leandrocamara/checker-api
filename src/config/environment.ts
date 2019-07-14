@@ -5,7 +5,7 @@
  * @author Leandro Câmara
  */
 export const environment = {
-  server: { port: process.env.SERVER_PORT || 3000 },
+  server: { port: process.env.SERVER_PORT || 5000 },
   security: {
     saltRounds: process.env.SALT_ROUNDS || 10,
     apiSecret: process.env.API_SECRET || 'checker-api-secret'

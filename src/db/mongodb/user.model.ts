@@ -8,7 +8,8 @@ import { saveMiddleware, updateMiddleware } from './middleware/user.middleware'
  * Interface que representa o Documento "User".
  */
 export interface User extends mongoose.Document {
-  name: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string,
   matches(password: string): boolean
@@ -25,7 +26,12 @@ export interface UserModel extends mongoose.Model<User> {
  * Schema: Define as propriedades (metadados) dos documentos.
  */
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
+    type: String,
+    required: true,
+    maxlength: 100
+  },
+  lastName: {
     type: String,
     required: true,
     maxlength: 100
@@ -33,7 +39,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gm,
     required: true
   },
   password: {

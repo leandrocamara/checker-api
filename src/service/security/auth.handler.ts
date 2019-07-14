@@ -40,7 +40,7 @@ function getToken (user: User) {
   }, environment.security.apiSecret)
 
   return {
-    name: user.name,
+    name: `${user.firstName} ${user.lastName}`,
     email: user.email,
     accessToken: accessToken
   }
